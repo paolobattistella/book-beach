@@ -52,12 +52,9 @@ $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
     ->click();
 
-// Wait for at most 10s and retry every 500ms
 $driver->wait(10, 500)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Lista Prenotazioni')
 );
-
-$driver->wait(10);
 
 try {
     $driver
