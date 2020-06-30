@@ -8,6 +8,7 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
+use Facebook\WebDriver\Chrome\ChromeDriver;
 
 $day = date('d/m/Y', strtotime('+1 day'));
 
@@ -23,8 +24,6 @@ $spaces = [
     33, 34, 35, 36,
     37, 38, 39, 40
 ];
-
-echo getenv('WEBAPP_USERNAME');
 
 $host = 'http://localhost:4444/';
 
