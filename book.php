@@ -28,11 +28,18 @@ $spaces = [
 $host = 'http://localhost:4444/';
 
 $capabilities = DesiredCapabilities::chrome();
-$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
-putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
-$driver = ChromeDriver::start();
+//$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
+$driver = RemoteWebDriver::create($host, $capabilities);
+//putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
+//$driver = ChromeDriver::start();
 
 $driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
+
+// Wait for at most 10s and retry every 500ms
+$driver->wait(10, 500)->until(
+    WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Accedi.')
+);
+
 $driver
     ->findElement(WebDriverBy::id('Email')) // find search input element
     ->sendKeys(getenv('WEBAPP_USERNAME')); // fill the search box
@@ -57,8 +64,6 @@ try {
         ->findElement(WebDriverBy::xpath("//td[contains(text(), '" . $day . "')]"));
     $driver->quit();
 } catch(NoSuchElementException $e) {}
-
-$driver->wait(10);
 
 $driver->get('https://www.bibi1app.it/Prenotazione/GetZona');
 $driver->wait(10, 500)->until(
