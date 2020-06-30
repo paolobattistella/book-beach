@@ -28,10 +28,10 @@ $spaces = [
 $host = 'http://localhost:4444/';
 
 $capabilities = DesiredCapabilities::chrome();
-//$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
-$driver = RemoteWebDriver::create($host, $capabilities);
-//putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
-//$driver = ChromeDriver::start();
+$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
+//$driver = RemoteWebDriver::create($host, $capabilities);
+putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
+$driver = ChromeDriver::start($capabilities);
 
 $driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
 
