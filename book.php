@@ -7,6 +7,7 @@ include('vendor/autoload.php');
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 
 $day = date('d/m/Y', strtotime('+1 day'));
 
@@ -23,9 +24,13 @@ $spaces = [
     37, 38, 39, 40
 ];
 
+echo json_encode($_REQUEST);
+echo json_encode($argv);
+
 $host = 'http://localhost:4444/';
 
 $capabilities = DesiredCapabilities::chrome();
+$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
 $driver = RemoteWebDriver::create($host, $capabilities);
 
 $driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
