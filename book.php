@@ -24,23 +24,23 @@ $spaces = [
     37, 38, 39, 40
 ];
 
-echo json_encode($_REQUEST);
-echo json_encode($argv);
+echo getenv('WEBAPP_USERNAME');
 
 $host = 'http://localhost:4444/';
 
 $capabilities = DesiredCapabilities::chrome();
 $capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
-$driver = RemoteWebDriver::create($host, $capabilities);
+putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
+$driver = ChromeDriver::start();
 
 $driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
 $driver
     ->findElement(WebDriverBy::id('Email')) // find search input element
-    ->sendKeys(''); // fill the search box
+    ->sendKeys(getenv('WEBAPP_USERNAME')); // fill the search box
 
 $driver
     ->findElement(WebDriverBy::id('Password')) // find search input element
-    ->sendKeys(''); // fill the search box
+    ->sendKeys(getenv('WEBAPP_PASSWORD')); // fill the search box
 
 $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
