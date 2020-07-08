@@ -11,7 +11,12 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 
 $tomorrow = '+1 day';
-$day = date('d/m/Y', $tomorrow);
+$day = date('d/m/Y', strtotime('+1 day'));
+
+$username = getenv('WEBAPP_USERNAME');
+$password = getenv('WEBAPP_PASSWORD');
+//$username = '';
+//$password = '';
 
 $spaces = [
     1, 2, 3, 5, 6, 7,
@@ -26,13 +31,11 @@ $spaces = [
     37, 38, 39, 40
 ];
 
-$host = 'http://localhost:4444/';
-
 $capabilities = DesiredCapabilities::chrome();
-//$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
-$driver = RemoteWebDriver::create($host, $capabilities);
+$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
 putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
-//$driver = ChromeDriver::start($capabilities);
+$driver = ChromeDriver::start($capabilities);
+//$driver = RemoteWebDriver::create('http://localhost:4444/', $capabilities);
 
 $driver->get('https://www.bibi1app.it/Account/Login');
 //$driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
@@ -44,11 +47,11 @@ $driver->wait(10, 500)->until(
 
 $driver
     ->findElement(WebDriverBy::id('Email')) // find search input element
-    ->sendKeys(getenv('WEBAPP_USERNAME')); // fill the search box
+    ->sendKeys($username); // fill the search box
 
 $driver
     ->findElement(WebDriverBy::id('Password')) // find search input element
-    ->sendKeys(getenv('WEBAPP_PASSWORD')); // fill the search box
+    ->sendKeys($password); // fill the search box
 
 $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
@@ -92,11 +95,11 @@ try {
     $driver->quit();
 }
 
-$driver->wait(10);
 
-$driver
-    ->findElement(WebDriverBy::partialLinkText('L07'))
-    ->click();
+$driver->get('https://www.bibi1app.it/Prenotazione/SetSettore?IDSettore=7');
+//$driver
+//    ->findElement(WebDriverBy::xpath("//a[@href='/Prenotazione/SetSettore?IDSettore=7']"))
+//    ->click();
 
 $driver->wait(10, 500)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('body'), 'Picchetto')
@@ -104,6 +107,7 @@ $driver->wait(10, 500)->until(
 
 foreach($spaces as $space) {
     try {
+
         $driver
             ->findElement(WebDriverBy::xpath("//a[@class='btn btn-success'][contains(text(), '" . $space . "')]"))
             ->click();
