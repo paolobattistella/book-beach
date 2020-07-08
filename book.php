@@ -10,8 +10,8 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 
-$tomorrow = '+1 day';
-$day = date('d/m/Y', strtotime('+1 day'));
+$tomorrow = strtotime('+1 day');
+$day = date('d/m/Y', $tomorrow);
 
 $username = getenv('WEBAPP_USERNAME');
 $password = getenv('WEBAPP_PASSWORD');
@@ -46,12 +46,12 @@ $driver->wait(10, 500)->until(
 );
 
 $driver
-    ->findElement(WebDriverBy::id('Email')) // find search input element
-    ->sendKeys($username); // fill the search box
+    ->findElement(WebDriverBy::id('Email'))
+    ->sendKeys($username);
 
 $driver
-    ->findElement(WebDriverBy::id('Password')) // find search input element
-    ->sendKeys($password); // fill the search box
+    ->findElement(WebDriverBy::id('Password'))
+    ->sendKeys($password);
 
 $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
