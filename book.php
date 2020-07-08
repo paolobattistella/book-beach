@@ -10,7 +10,8 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 
-$day = date('d/m/Y', strtotime('+1 day'));
+$tomorrow = '+1 day';
+$day = date('d/m/Y', $tomorrow);
 
 $spaces = [
     1, 2, 3, 5, 6, 7,
@@ -28,12 +29,13 @@ $spaces = [
 $host = 'http://localhost:4444/';
 
 $capabilities = DesiredCapabilities::chrome();
-$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
-//$driver = RemoteWebDriver::create($host, $capabilities);
+//$capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
+$driver = RemoteWebDriver::create($host, $capabilities);
 putenv('WEBDRIVER_CHROME_DRIVER='.getenv('CHROMEDRIVER_PATH'));
-$driver = ChromeDriver::start($capabilities);
+//$driver = ChromeDriver::start($capabilities);
 
-$driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
+$driver->get('https://www.bibi1app.it/Account/Login');
+//$driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
 
 // Wait for at most 10s and retry every 500ms
 $driver->wait(10, 500)->until(
@@ -52,15 +54,15 @@ $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
     ->click();
 
-$driver->wait(10, 500)->until(
-    WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Lista Prenotazioni')
-);
-
-try {
-    $driver
-        ->findElement(WebDriverBy::xpath("//td[contains(text(), '" . $day . "')]"));
-    $driver->quit();
-} catch(NoSuchElementException $e) {}
+//$driver->wait(10, 500)->until(
+//    WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Lista Prenotazioni')
+//);
+//
+//try {
+//    $driver
+//        ->findElement(WebDriverBy::xpath("//td[contains(text(), '" . $day . "')]"));
+//    $driver->quit();
+//} catch(NoSuchElementException $e) {}
 
 $driver->get('https://www.bibi1app.it/Prenotazione/GetZona');
 $driver->wait(10, 500)->until(
