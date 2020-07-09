@@ -41,8 +41,8 @@ $driver = ChromeDriver::start($capabilities);
 $driver->get('https://www.bibi1app.it/Account/Login');
 //$driver->get('https://www.bibi1app.it/Account/Login?ReturnUrl=%2FPrenotazione%2FListaPrenotazioniUtente');
 
-// Wait for at most 10s and retry every 500ms
-$driver->wait(10, 500)->until(
+// Wait for at most 10s and retry every 1000ms
+$driver->wait(10, 1000)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Accedi.')
 );
 
@@ -58,7 +58,7 @@ $driver
     ->findElement(WebDriverBy::xpath("//input[@value='Accedi']"))
     ->click();
 
-//$driver->wait(10, 500)->until(
+//$driver->wait(10, 1000)->until(
 //    WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('h2'), 'Lista Prenotazioni')
 //);
 //
@@ -69,7 +69,7 @@ $driver
 //} catch(NoSuchElementException $e) {}
 
 $driver->get('https://www.bibi1app.it/Prenotazione/GetZona');
-$driver->wait(10, 500)->until(
+$driver->wait(10, 1000)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('body'), 'Lido del Sole')
 );
 
@@ -77,7 +77,7 @@ $driver
     ->findElement(WebDriverBy::linkText('Lido del Sole'))
     ->click();
 
-$driver->wait(10, 500)->until(
+$driver->wait(10, 1000)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('body'), 'Domani')
 );
 
@@ -85,7 +85,7 @@ $driver
     ->findElement(WebDriverBy::linkText('Domani'))
     ->click();
 
-$driver->wait(10, 500)->until(
+$driver->wait(10, 1000)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('body'), 'L07')
 );
 
@@ -102,7 +102,7 @@ $driver->get('https://www.bibi1app.it/Prenotazione/SetSettore?IDSettore=7');
 //    ->findElement(WebDriverBy::xpath("//a[@href='/Prenotazione/SetSettore?IDSettore=7']"))
 //    ->click();
 
-$driver->wait(10, 500)->until(
+$driver->wait(10, 1000)->until(
     WebDriverExpectedCondition::elementTextContains(WebDriverBy::tagName('body'), 'Picchetto')
 );
 
