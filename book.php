@@ -10,6 +10,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 
+date_default_timezone_set('Europe/Rome');
 $tomorrow = strtotime('+1 day');
 $day = date('d/m/Y', $tomorrow);
 
