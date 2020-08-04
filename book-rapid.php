@@ -10,41 +10,49 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Chrome\ChromeDriver;
 
+$args = [];
+foreach ($argv as $arg) {
+    $e=explode("=",$arg);
+    if(count($e)==2) {
+        $args[$e[0]] = $e[1];
+    }
+}
+
 date_default_timezone_set('Europe/Rome');
 $tomorrow = strtotime('+1 day');
 $day = date('d/m/Y', $tomorrow);
 
-$username = getenv('WEBAPP_USERNAME');
-$password = getenv('WEBAPP_PASSWORD');
-//$username = '';
-//$password = '';
-
-$books = 2;
-$waitUntill = mktime(14, 0, 0);
-//error_log(date('Y-m-d H:i', $waitUntill));
+$username = $args['username'];
+$password = $args['password'];
+$books = !empty($args['books']) ? $args['books'] : 2;
+$waitUntill = mktime(!empty($args['untill']) ? $args['untill'] : 14, 0, 0);
 
 $host = 'https://www.bibi1app.it/';
-$spaces = [
-    9, 10, 1, 5, 6, 7, 8,
-    //2, 3, 4,
-    11, 12,
-    13, 14, 15, 16,
-    17, 18, 19, 20,
-    21, 22, 23, 24, 41, 42,
-    25, 26, 27, 28, 45, 46,
-    29, 30, 31, 32, 49, 50,
-    33, 34, 35, 36,
-    37, 38, 39, 40,
-    42, 44, 47, 48,
-    51, 52, 53, 54,
-    55, 56, 57, 58,
-    59, 60, 61, 62,
-    63, 64, 65, 66,
-    67, 68, 69, 70,
-    71, 72, 73, 74,
-    75, 76, 77, 78,
-    79, 80
-];
+if (empty($args['spaces'])) {
+    $spaces = [
+        9, 10, 6, 7, 8,
+        //2, 3, 4,
+        11, 12,
+        13, 14, 15, 16,
+        17, 18, 19, 20,
+        21, 22, 23, 24, 41, 42,
+        25, 26, 27, 28, 45, 46,
+        29, 30, 31, 32, 49, 50,
+        33, 34, 35, 36,
+        37, 38, 39, 40,
+        42, 44, 47, 48,
+        51, 52, 53, 54,
+        55, 56, 57, 58,
+        59, 60, 61, 62,
+        63, 64, 65, 66,
+        67, 68, 69, 70,
+        71, 72, 73, 74,
+        75, 76, 77, 78,
+        79, 80
+    ];
+} else {
+    $spaces = explode(',', $args['spaces']);
+}
 
 $capabilities = DesiredCapabilities::chrome();
 $capabilities->setCapability('goog:chromeOptions', ['args' => ['--headless', '--disable-dev-shm-usage', '--no-sandbox']]);
