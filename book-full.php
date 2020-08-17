@@ -22,7 +22,7 @@ if (!empty($_GET)) {
     }
 }
 
-date_default_timezone_set(!empty($args['timezone']) ? : $args['timezone'] : 'Europe/Rome');
+date_default_timezone_set(!empty($args['timezone']) ? $args['timezone'] : 'Europe/Rome');
 $tomorrow = strtotime('+1 day');
 $day = date('d/m/Y', $tomorrow);
 
@@ -34,7 +34,7 @@ $waitUntill = mktime(!empty($args['untill']) ? $args['untill'] : 14, 0, 0);
 $host = 'https://www.bibi1app.it/';
 if (empty($args['spaces'])) {
     $spaces = [
-        9, 10, 6, 7, 8,
+        6, 7, 8,
         //2, 3, 4,
         11, 12,
         13, 14, 15, 16,
@@ -167,3 +167,5 @@ foreach($spaces as $idx => $space) {
 
     }
 }
+
+mail('paolo.battistella@gmail.com','test','test');
